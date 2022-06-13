@@ -9,6 +9,7 @@ Attention, projet en cours !!!
 # TODO
 - doc/docstring
 - pour les nerds
+- partie hardware
 - readme
 - exemples
 

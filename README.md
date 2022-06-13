@@ -7,11 +7,10 @@ Attention, projet en cours !!!
 
 
 # TODO
-- rédiger TOUT
-- docstring
-- documentation
+- doc/docstring
+- pour les nerds
+- readme
 - exemples
-- instruction de montage du modèle
 
 # Links
 - https://www.youtube.com/watch?v=HU9SaCFnCng - la video qui a inspiré ce répertoire

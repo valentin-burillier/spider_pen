@@ -4,14 +4,18 @@
 - kit 17101
 voir le pdf instruction
 
+# Communication avec le Hub
+
+- bluegiga si windows
+
 # Matériels non-LEGO
 
-vantouses + rubans : longueur rubans (L_tot)
-justifs du choix
-ruban en un mm pts : répartition des forces, le module ne se tourne pas → créer du shake (pas significatif)
-ruban car enroulement prédictible, pas trop extensible et on peut en enrouler bcp sur petit treuil
-ventouse car s’attache facilement, permet de supporter
-comme expliquer dans vid de ricardo
+- vantouses + rubans : longueur rubans (L_tot)
+justifs du choix :
+- ruban en un mm pts : répartition des forces, le module ne se tourne pas → créer du shake (pas significatif)
+- ruban car enroulement prédictible, pas trop extensible et on peut en enrouler bcp sur petit treuil
+- ventouse car s’attache facilement, permet de supporter
+- comme expliquer dans vid de ricardo
 
 # Alimentation electrique
 

@@ -169,6 +169,9 @@ class Plotter(MoveHub):
     def half_turn(self):
         self.left(180)
     
+    def setheading(self, angle=0):
+        self.angle = angle
+    
     def forward(self, d=10):
         a = self.angle/180*np.pi
         self.go_to(self.x_ + np.cos(a)*d, self.y_ + np.sin(a)*d)
@@ -188,7 +191,7 @@ class Plotter(MoveHub):
         
     def sety(self, y_):
         self.go_to(y_=y_)
-        
+     
     def go_to(self, x_=None, y_=None):
         x_ = self.x_ if x_ is None
         y_ = self.y_ if y_ is None
@@ -208,6 +211,9 @@ class Plotter(MoveHub):
     
     def ycor(self):
         return self.y_
+    
+    def heading(self):
+        return self.angle
     
     def circle(self, radius, angle=360, n=None, d_max=1): # d_ max valeur max du coté du polygone
         if n == None:
@@ -272,7 +278,7 @@ class Plotter(MoveHub):
     
     _check = lambda self : self.X_.max() <= self.x_max and self.X_.min() >= self.x_min and self.Y_.max() <= self.x_max and self.Y_.min() >= self.y_min
     
-    def draw(self, center=True, fill_factor=1.0):
+    def draw(self, center=True, fill_factor=0.9):
         if self.instructions[-1, -1]: # leve le crayon a la fin
             self.up()
             

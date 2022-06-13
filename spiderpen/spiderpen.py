@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from pylgbst.comms.cpygatt import BlueGigaConnection
 from pylgbst.hub import MoveHub
 
-class Spider_pen(MoveHub):
+class Plotter(MoveHub):
     def __init__(self, L_Gi, L_Di, lenght, height=None, connection=None):
         if connection is None:
             connection = BlueGigaConnection()
@@ -135,7 +135,7 @@ class Spider_pen(MoveHub):
         
         self.motor_GD.timed(0)
 
-    def finalize(self):
+    def home(self):
         # retour a la pos ini 
         self.led.set_color(6) # vert
 
@@ -183,16 +183,32 @@ class Spider_pen(MoveHub):
         x_, y_, self.angle = self.backup
         self.go_to(x_, y_)
     
+    def setx(self, x_):
+        self.go_to(x_=x_)
+        
+    def sety(self, y_):
+        self.go_to(y_=y_)
+        
     def go_to(self, x_=None, y_=None):
-        if x_ == None:
-            x_ = self.x_
-        if y_ == None:
-            y_ = self.y_
+        x_ = self.x_ if x_ is None
+        y_ = self.y_ if y_ is None
             
         if self.x_ != x_ or self.y_ != y_ or self.write_ != self.instructions[-1, -1]:
             self.x_, self.y_ = x_, y_
             self.instructions = np.concatenate((self.instructions, np.array([[x_, y_, int(self.write_)]], object)), axis=0)
-        
+       
+    def isdown(self):
+        return self.write_
+    
+    def pos(self):
+        return self.x_, self.y_
+    
+    def xcor(self):
+        return self.x_
+    
+    def ycor(self):
+        return self.y_
+    
     def circle(self, radius, angle=360, n=None, d_max=1): # d_ max valeur max du coté du polygone
         if n == None:
             n = int(np.pi*angle/180*radius/d_max) + 1
@@ -224,7 +240,17 @@ class Spider_pen(MoveHub):
         plt.plot(X_, Y_)
         plt.show()
         
-
+    def path(self):       
+        plt.figure(figsize=(9, 9*(self.y_max - self.y_min)/(self.x_max - self.x_min)))
+        
+        plt.ylim((self.y_max, self.y_min))
+        plt.xlim((self.x_min, self.x_max))
+        
+        plt.plot(self.X_, self.Y_)
+        plt.scatter(self.X, self.Y, c='orange', s=5)
+        
+        plt.show() 
+        
     def _center(self):      
         self.Y_ -= (self.Y_.max() + self.Y_.min())/2
         self.X_ -= (self.X_.max() + self.X_.min())/2
@@ -245,17 +271,6 @@ class Spider_pen(MoveHub):
         self.Y_ += (self.y_max + self.y_min)/2
     
     _check = lambda self : self.X_.max() <= self.x_max and self.X_.min() >= self.x_min and self.Y_.max() <= self.x_max and self.Y_.min() >= self.y_min
-
-    def path(self):       
-        plt.figure(figsize=(9, 9*(self.y_max - self.y_min)/(self.x_max - self.x_min)))
-        
-        plt.ylim((self.y_max, self.y_min))
-        plt.xlim((self.x_min, self.x_max))
-        
-        plt.plot(self.X_, self.Y_)
-        plt.scatter(self.X, self.Y, c='orange', s=5)
-        
-        plt.show() 
     
     def draw(self, center=True, fill_factor=1.0):
         if self.instructions[-1, -1]: # leve le crayon a la fin
@@ -281,7 +296,7 @@ class Spider_pen(MoveHub):
         for x_f, y_f, write in self.instructions:
             if write == 2:
                 self.stop()
-                self.led.set_color(7) # jaune
+                self.led.set_color(9) # rouge
                 while not(self.value_B):
                     pass
                 self.led.set_color(6) # vert

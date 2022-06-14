@@ -14,5 +14,5 @@ Attention, projet en cours !!!
 - exemples
 
 # Links
-- https://www.youtube.com/watch?v=HU9SaCFnCng - la video qui a inspiré ce répertoire
+- https://www.youtube.com/watch?v=HU9SaCFnCng / https://www.youtube.com/watch?v=5x0n29MjIi8 - les videos qui ont inspiré ce répertoire
 - https://github.com/undera/pylgbst - la librairie permettant le controle du Hub

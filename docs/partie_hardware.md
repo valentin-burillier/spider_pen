@@ -1,6 +1,6 @@
 # Partie LEGO
 
-Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut néanmoins ajouter de 2 vis sans fin 4716. Sans ces dernières, il n'est pas possible d'obtenir un rapport de réduction suffisant avec les pièces de l'ensemble 17101. Les instruction de montage du modèle sont disponible [`docs/instructions`](docs/instructions.pdf)
+Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut néanmoins ajouter de 2 vis sans fin 4716. Sans ces dernières, il n'est pas possible d'obtenir un rapport de réduction suffisant avec les pièces de l'ensemble 17101. Les instruction de montage du modèle sont disponible [`docs/instructions`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/instructions.pdf)
 
 # Communication avec le Hub
 

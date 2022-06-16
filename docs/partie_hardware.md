@@ -1,8 +1,6 @@
 # Partie LEGO
 
-- 2 vis sans fin en plus : vis sans fin car sinon pas assez de force
-- kit 17101
-voir le pdf instruction
+Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut néanmoins ajouter de 2 vis sans fin 4716. Sans ces dernières, il n'est pas possible d'obtenir un rapport de réduction suffisant avec les pièces de l'ensemble 17101. Les instruction de montage du modèle sont disponible [`docs/instructions`](docs/instructions)
 
 # Communication avec le Hub
 

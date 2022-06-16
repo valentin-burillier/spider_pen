@@ -1,18 +1,31 @@
-# spider_pen
-Librairie python pour le contrôle d'un modèle complémentaire de l'ensemble LEGO Boost 17101
+# Description
 
-Attention, projet en cours !!!
+Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 17101. Il comprend :
+- Les instructions de montage du modèle
+- La librairie python permettant le contrôle du robot
+- des exemples d'utilisation
+- toute la documentation nécessaire
 
+[photo robot]
 
+Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacement se fait à la manière turtle [`docs/docs`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md)
 
+# Examples
+
+à faire
+
+# Installation
+
+[trouver comment mettre le package sur pip]
 
 # TODO
-- doc/docstring
-- pour les nerds
-- partie hardware
-- readme
-- exemples
+
+- docstring
+- rédiger le fichier documentant le fonctionnement de l'algorithme de déplacement
+- mettre des exemples d'utilisation
+- corriger les fautes d'orthographes et angliser le tout
 
 # Links
+
 - https://www.youtube.com/watch?v=HU9SaCFnCng / https://www.youtube.com/watch?v=5x0n29MjIi8 - les videos qui ont inspiré ce répertoire
 - https://github.com/undera/pylgbst - la librairie permettant le controle du Hub

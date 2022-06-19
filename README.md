@@ -1,10 +1,10 @@
 # Description
 
 Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 17101. Il comprend :
-- Les instructions de montage du modèle
-- La librairie python permettant le contrôle du robot
-- des exemples d'utilisation
-- toute la documentation nécessaire
+- Les instructions de montage du modèle : [`docs/building_instructions`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/building_instructions.pdf)
+- La librairie python permettant le contrôle du robot : [`spiderpen`](https://github.com/valentin-burillier/spiderpen/tree/main/spiderpen)
+- des exemples d'utilisation : [`examples`](https://github.com/valentin-burillier/spiderpen/tree/main/examples)
+- toute la documentation nécessaire : [`docs`](https://github.com/valentin-burillier/spiderpen/tree/main/docs)
 
 [photo robot]
 

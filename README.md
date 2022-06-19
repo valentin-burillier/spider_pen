@@ -8,7 +8,7 @@ Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 
 
 [photo robot]
 
-Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacement se fait à la manière turtle [`docs/docs`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md)
+Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle [`docs/docs`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md)
 
 # Examples
 

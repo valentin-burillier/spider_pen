@@ -5,7 +5,7 @@ setup(
     packages = ['spiderpen'],
     version = '0.0.4',
     description = 'Python library to control a complementary model of the LEGO Boost 17101 set',
-    long_description = ''
+    long_description = '',
     author = 'Valentin Burillier',
     author_email = '',
     url = 'https://github.com/valentin-burillier/spiderpen',

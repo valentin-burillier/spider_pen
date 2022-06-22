@@ -193,8 +193,8 @@ class Plotter(MoveHub):
         self.go_to(y_=y_)
      
     def go_to(self, x_=None, y_=None):
-        x_ = self.x_ if x_ is None
-        y_ = self.y_ if y_ is None
+        x_ = self.x_ if x_ is None else x_
+        y_ = self.y_ if y_ is None else y_
             
         if self.x_ != x_ or self.y_ != y_ or self.write_ != self.instructions[-1, -1]:
             self.x_, self.y_ = x_, y_

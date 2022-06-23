@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name = 'spiderpen',
     packages = ['spiderpen'],
-    version = '0.0.9',
+    version = '0.0.10',
     description = 'Python library to control a complementary model of the LEGO Boost 17101 set',
     long_description = '',
     author = 'Valentin Burillier',

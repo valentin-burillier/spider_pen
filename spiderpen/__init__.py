@@ -2,33 +2,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pylgbst.comms.cpygatt import BlueGigaConnection
 from pylgbst.hub import MoveHub
+import time
 
 class Plotter(MoveHub):
-    def __init__(self, L_Gi, L_Di, lenght, height=None, connection=None):
-        if connection is None:
-            connection = BlueGigaConnection()
-            connection.connect(hub_name="LEGO Move Hub")
-        super(Printer, self).__init__(connection)
-        
-        self.motor_G = self.motor_A
-        self.motor_D = self.motor_B
-        self.motor_GD = self.motor_AB
-        self.motor_pen = self.motor_external
-        
+    def __init__(self, L_Gi, L_Di, lenght, height):
         self.value_D, self.value_G, self.value_B = 0, 0, 0
-        self.motor_D.subscribe(self.__callback_D)
-        self.motor_G.subscribe(self.__callback_G)
-        self.button.subscribe(self.__callback_B)
 
         # constantes
         self.T = 0.15 # épaisseur du ruban
         self.R = 12 # rapport de réduction
         self.r = 7.5/2 # rayon du treuil en mm
-               
-        self.write = False
-        self.calibration(L_Gi, L_Di, lenght, height)
-        self.new_drawing()
+        
+        self.L_Gi, self.L_Di, self.lenght, self.height = L_Gi, L_Di, lenght, height
+        
+        self.clear()
     
+    def connect_spider(self, connection=None):
+        if connection is None:
+            connection = BlueGigaConnection()
+            connection.connect(hub_name="LEGO Move Hub")
+        super(Plotter, self).__init__(connection)
+        
+        self.motor_G = self.motor_A
+        self.motor_D = self.motor_B
+        self.motor_GD = self.motor_AB
+        self.motor_pen = self.motor_external   
+        
+        self.motor_D.subscribe(self.__callback_D)
+        self.motor_G.subscribe(self.__callback_G)
+        self.button.subscribe(self.__callback_B)
+        
+        self.write = False
+        self.calibration()
+        
     def __callback_D(self, value):
         self.value_D = value
     def __callback_G(self, value):
@@ -36,7 +42,7 @@ class Plotter(MoveHub):
     def __callback_B(self, value):
         self.value_B = value
     
-    def new_drawing(self):
+    def clear(self):
         # variables théoriques
         self.write_ = True
         self.angle = 0
@@ -44,17 +50,15 @@ class Plotter(MoveHub):
         self.instructions = np.array([[0, 0, 0],
                                       [0, 0, 1]], object)
     
-    def calibration(self, L_Gi, L_Di, lenght, height=None):
+    def calibration(self):
         self.L_tot = 1.37 * 10**3 # longueur de cable LTD = 1.44
-        self.L = lenght * 10**3 # distance entre les 2 pts d'accroche en mm
-        self.L_G = L_Gi * 10**3
-        self.L_D = L_Di * 10**3
+        self.L = self.lenght * 10**3 # distance entre les 2 pts d'accroche en mm
+        self.L_G = self.L_Gi * 10**3
+        self.L_D = self.L_Di * 10**3
         
         # détermination de la zone de dessin
-        self.y_max = np.sqrt(self.L_tot**2 - self.L**2)
-        if self.y_max > height * 10**3 - 250:
-            self.y_max = height * 10**3 - 250
         self.y_min = self.L*0.29 # 0.2 : max et 1/np.sqrt(12)=0.289 : force corde = 1 poid 
+        self.y_max = min(np.sqrt(self.L_tot**2 - self.L**2), self.height * 10**3 - 250)
         self.x_min = 80
         self.x_max = self.L - 80
         
@@ -64,7 +68,7 @@ class Plotter(MoveHub):
         
         self.X_i, self.Y_i = self.get_position()
 
-        
+
     def get_position(self): # fonctionne avec y > 0 
         # lire capteurs
         t_G = self.t_Gi + self.value_G/180*np.pi
@@ -150,70 +154,48 @@ class Plotter(MoveHub):
             
           
     def up(self):
-        if self.write_:
-            self.write_ = False
-            self.go_to()
+        self.write_ = False
+        self.go_to()
     
     def down(self):
-        if self.write_ != 1:
-            self.write_ = True
-            self.go_to()
-    
-    def right(self, angle=90):
-        self.left(-angle) 
+        self.write_ = True
+        self.go_to()
     
     def left(self, angle=90):
         self.angle += angle
         self.angle = -((-self.angle-180)%360 - 180) # met l'angle entre ]-180; 180]
     
-    def half_turn(self):
-        self.left(180)
+    right = lambda self, angle=90 : self.left(-angle) 
+        
+    half_turn = lambda self : self.left(180)
     
     def setheading(self, angle=0):
         self.angle = angle
+    
+    def go_to(self, x_=None, y_=None):
+        self.x_ = self.x_ if x_ is None else x_ 
+        self.y_ = self.y_ if y_ is None else y_
+        self.instructions = np.concatenate((self.instructions, np.array([[self.x_, self.y_, int(self.write_)]], object)), axis=0)
     
     def forward(self, d=10):
         a = self.angle/180*np.pi
         self.go_to(self.x_ + np.cos(a)*d, self.y_ + np.sin(a)*d)
     
-    def backward(self, d=10):
-        self.forward(-d)
+    backward = lambda self, d=10 : self.forward(-d)
     
-    def save_position(self):
-        self.backup = (self.instructions[-1, 0], self.instructions[-1, 1], self.angle) # (x_, y_, angle)
+    setx = lambda self, x_ : self.go_to(x_=x_)
         
-    def load_position(self):
-        x_, y_, self.angle = self.backup
-        self.go_to(x_, y_)
-    
-    def setx(self, x_):
-        self.go_to(x_=x_)
-        
-    def sety(self, y_):
-        self.go_to(y_=y_)
-     
-    def go_to(self, x_=None, y_=None):
-        x_ = self.x_ if x_ is None else x_
-        y_ = self.y_ if y_ is None else y_
-            
-        if self.x_ != x_ or self.y_ != y_ or self.write_ != self.instructions[-1, -1]:
-            self.x_, self.y_ = x_, y_
-            self.instructions = np.concatenate((self.instructions, np.array([[x_, y_, int(self.write_)]], object)), axis=0)
+    sety = lambda self, y_ : self.go_to(y_=y_)
        
-    def isdown(self):
-        return self.write_
+    isdown = lambda self : self.write_
     
-    def pos(self):
-        return self.x_, self.y_
+    pos = lambda self : (self.x_, self.y_)
     
-    def xcor(self):
-        return self.x_
+    xcor = lambda self : self.x_
     
-    def ycor(self):
-        return self.y_
+    ycor = lambda self : self.y_
     
-    def heading(self):
-        return self.angle
+    heading = lambda self : self.angle
     
     def circle(self, radius, angle=360, n=None, d_max=1): # d_ max valeur max du coté du polygone
         if n == None:
@@ -228,7 +210,16 @@ class Plotter(MoveHub):
             self.left(a)
         self.forward(d)
         self.left(a/2)
-        
+    
+    def undo(self):
+        if self.instructions[-2, -1] == 2:
+            if self.instructions[-1, -1]:
+                self.instructions = self.instructions[:-3]
+            else:
+                self.instructions = self.instructions[:-2]                
+        else:
+            self.instructions = self.instructions[:-1]
+    
     def change_color(self):
         write_ = self.write_
         self.up()
@@ -316,4 +307,4 @@ class Plotter(MoveHub):
                 
         self.stop()
         self.led.set_color(3) # bleu
-        self.new_drawing()        
+        self.clear()        

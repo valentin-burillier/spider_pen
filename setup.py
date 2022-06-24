@@ -4,7 +4,7 @@ setup(
     name = 'spiderpen',
     packages = ['spiderpen'],
     version = '0.0.10',
-    description = 'Python library to control a complementary model of the LEGO Boost 17101 set',
+    description = 'Python library for controlling a plotter model complementary to the LEGO Boost 17101 set',
     long_description = '',
     author = 'Valentin Burillier',
     author_email = '',

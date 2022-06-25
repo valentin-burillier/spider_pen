@@ -4,8 +4,8 @@ from pylgbst.comms.cpygatt import BlueGigaConnection
 from pylgbst.hub import MoveHub
 import time
 
-class Plotter(MoveHub):
-    def __init__(self, L_Gi, L_Di, lenght, height):
+class Plotter:
+    def __init__(self, lenght, height, L_Gi, L_Di):
         self.value_D, self.value_G, self.value_B = 0, 0, 0
 
         # constantes
@@ -17,24 +17,27 @@ class Plotter(MoveHub):
         
         self.clear()
     
-    def connect_spider(self, connection=None):
-        if connection is None:
+    def connect(self, hub=None):
+        if hub is None:
             connection = BlueGigaConnection()
             connection.connect(hub_name="LEGO Move Hub")
-        super(Plotter, self).__init__(connection)
+            hub = MoveHub(connection)
+        self.hub = hub
         
-        self.motor_G = self.motor_A
-        self.motor_D = self.motor_B
-        self.motor_GD = self.motor_AB
-        self.motor_pen = self.motor_external   
+        self.motor_G = self.hub.motor_A
+        self.motor_D = self.hub.motor_B
+        self.motor_GD = self.hub.motor_AB
+        self.motor_pen = self.hub.motor_external   
         
         self.motor_D.subscribe(self.__callback_D)
         self.motor_G.subscribe(self.__callback_G)
-        self.button.subscribe(self.__callback_B)
+        self.hub.button.subscribe(self.__callback_B)
         
         self.write = False
         self.calibration()
-        
+    
+    disconnect = lambda self : self.hub.disconnect()
+    
     def __callback_D(self, value):
         self.value_D = value
     def __callback_G(self, value):
@@ -51,7 +54,7 @@ class Plotter(MoveHub):
                                       [0, 0, 1]], object)
     
     def calibration(self):
-        self.L_tot = 1.37 * 10**3 # longueur de cable LTD = 1.44
+        self.L_tot = 1500 # longueur de cable LTD = 1.44
         self.L = self.lenght * 10**3 # distance entre les 2 pts d'accroche en mm
         self.L_G = self.L_Gi * 10**3
         self.L_D = self.L_Di * 10**3
@@ -141,7 +144,7 @@ class Plotter(MoveHub):
 
     def home(self):
         # retour a la pos ini 
-        self.led.set_color(6) # vert
+        self.hub.led.set_color(6) # vert
 
         self.move_pen(False)
         
@@ -150,16 +153,16 @@ class Plotter(MoveHub):
         self.motor_G.goto_position(0, speed=0.2)
         self.motor_D.goto_position(0, speed=0.2)
         
-        self.led.set_color(3) # bleu
+        self.hub.led.set_color(3) # bleu
             
           
     def up(self):
         self.write_ = False
-        self.go_to()
+        self.goto()
     
     def down(self):
         self.write_ = True
-        self.go_to()
+        self.goto()
     
     def left(self, angle=90):
         self.angle += angle
@@ -172,20 +175,20 @@ class Plotter(MoveHub):
     def setheading(self, angle=0):
         self.angle = angle
     
-    def go_to(self, x_=None, y_=None):
+    def goto(self, x_=None, y_=None):
         self.x_ = self.x_ if x_ is None else x_ 
         self.y_ = self.y_ if y_ is None else y_
         self.instructions = np.concatenate((self.instructions, np.array([[self.x_, self.y_, int(self.write_)]], object)), axis=0)
     
     def forward(self, d=10):
         a = self.angle/180*np.pi
-        self.go_to(self.x_ + np.cos(a)*d, self.y_ + np.sin(a)*d)
+        self.goto(self.x_ + np.cos(a)*d, self.y_ + np.sin(a)*d)
     
     backward = lambda self, d=10 : self.forward(-d)
     
-    setx = lambda self, x_ : self.go_to(x_=x_)
+    setx = lambda self, x_ : self.goto(x_=x_)
         
-    sety = lambda self, y_ : self.go_to(y_=y_)
+    sety = lambda self, y_ : self.goto(y_=y_)
        
     isdown = lambda self : self.write_
     
@@ -224,7 +227,7 @@ class Plotter(MoveHub):
         write_ = self.write_
         self.up()
         self.write_ = 2
-        self.go_to()
+        self.goto()
         if write_:
             self.down()
         else:
@@ -277,6 +280,11 @@ class Plotter(MoveHub):
         self.X, self.Y = [], [] # ...déssinées        
         self.X_, self.Y_ = self.instructions.T[:2] # ...théoriques
         
+        if fill_factor < 0:
+            fill_factor = 0
+        elif fill_factor > 1:
+            fill_factor = 1
+        
         if center:
             self._center() # centrage du dessin      
         if fill_factor:
@@ -288,15 +296,15 @@ class Plotter(MoveHub):
                 return 'Ca depasse chef !'
               
         
-        self.led.set_color(6) # vert
+        self.hub.led.set_color(6) # vert
         x_i, y_i = None, None
         for x_f, y_f, write in self.instructions:
             if write == 2:
                 self.stop()
-                self.led.set_color(9) # rouge
+                self.hub.led.set_color(9) # rouge
                 while not(self.value_B):
                     pass
-                self.led.set_color(6) # vert
+                self.hub.led.set_color(6) # vert
                 time.sleep(2)
             elif self.write != write:
                 self.stop()
@@ -306,5 +314,5 @@ class Plotter(MoveHub):
                 x_i, y_i = x_f, y_f
                 
         self.stop()
-        self.led.set_color(3) # bleu
-        self.clear()        
+        self.hub.led.set_color(3) # bleu
+        self.clear()

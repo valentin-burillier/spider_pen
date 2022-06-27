@@ -32,9 +32,12 @@ pip install spiderpen
 
 # TODO
 
+- creer le fichier test/demo
+- compléter docs/hardware.md
+- corriger les fautes d'orthographes
+- mettre les exemples d'utilisation
 - rédiger le fichier documentant le fonctionnement de l'algorithme de déplacement
-- mettre des exemples d'utilisation
-- corriger les fautes d'orthographes et angliser le tout
+- angliser le tout
 
 # Links
 

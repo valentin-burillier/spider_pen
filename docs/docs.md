@@ -25,7 +25,9 @@ p.disconnect()
 
 [mettre photo reel]
 
-Le détail de ce que réalise ces méthodes est visible [ici](#Méthodes-du-package-spiderpen).
+Le détail de ce que réalise ces méthodes est visible dans cette [section](#Méthodes-du-package-spiderpen).
+
+Il est conseillé d'utiliser une interface de programmation en cellule tel que : Jupyther Lab, Jupyther Notebook, Spyder (avec #%%)...
 
 En fonctionnement, la LED du robot respecte un code couleur : 
 - Bleu : Le robot attend les instructions, il ne dessine pas

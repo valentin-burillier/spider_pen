@@ -1,8 +1,8 @@
 # Partie LEGO
 
 Liste :
-- LEGO Boost 17101 : 
-- 2 vis sans fin 4716 :
+- LEGO Boost 17101
+- 2 vis sans fin 4716
 
 Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut néanmoins ajouter deux vis sans fin 4716. Sans ces dernières, il n'est pas possible d'obtenir un rapport de réduction suffisant pour supporter le poid du modèle. Les instructions de montage du modèle sont disponible dans le fichier [`docs/instructions`](https://github.com/valentin-burillier/spiderpen/blob/main/docs/instructions.pdf).
 
@@ -11,11 +11,11 @@ Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut 
 # Matériels non-LEGO
 
 Liste :
-- Ruban bolduc :
-- 2 vantouses :
-- Feutres :
-- Tableau :
-- Carte Bluegiga (si Windows) :
+- Ruban bolduc
+- 2 vantouses
+- Feutres
+- Tableau
+- Carte Bluegiga (si Windows)
 
 [photo treuil/vantouse]
 
@@ -37,25 +37,14 @@ Les justifications de ces choix sont parfaitement détaillées dans cette [vidé
 
 # Alimentation électrique
 
-Pour cette utilisation, le Hub utilise beaucoup d'énergie. Ainsi, deux solutions sont envisageables :
-
-## Batteries
-
 Liste :
-- Piles + chargeur : 
+- transformateur
 
-Utiliser un ensemble de piles rechargeables. L'autonomie de ces dernières limite la longueur de tracé mais cela reste emplement suffisant. 
+Pour cette utilisation, le Hub utilise beaucoup d'énergie. Ainsi, je conseil de créer une alimentation filaire.
 
-## Alimentation filaire
+A l'aide d'un transformateur 7.5-9V, il est possible d'alimenter convenablement le Hub. Les batteries ne limitent donc plus le temps d'utilisation. Se référer [ici](https://www.youtube.com/watch?v=iMCDWRqhlA8).
 
-Liste :
-- transformateur : 
-
-Créer une alimentation filaire du Hub. A l'aide d'un transformateur 7.5V, il est possible d'alimenter convenablement le Hub. Les batteries ne limitent donc plus le temps d'utilisation. Néanmoins, le câble d'alimentation ajoute du poid et peut géner la progression du robot.
-[mettre ref video]
-
-[mettre photo du montage]
-
+Pour les personnes disposant d'une imprimante 3D, voici un [adaptateur](https://cults3d.com/fr/mod%C3%A8le-3d/jeu/lego-boost-move-hub-power-adapter) à imprimer.
 
 # autre titre
 

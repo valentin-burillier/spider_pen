@@ -5,9 +5,9 @@ Les déplacements du robot se programment en langage Logo. Les méthodes implém
 ```python
 import spiderpen as sp
 
-p = sp.Plotter(lenght=0.89, height=1.60, L_Gi=1.12, L_Di=1.25)
+p = sp.Plotter(L_Gi=890, L_Di=825)
 
-n, T = 20, 9
+n, T = 7, 4
 for _ in range(n):
     p.forward(100)
     p.left(360/n*T)
@@ -19,13 +19,11 @@ p.connect()
 
 p.draw(fill_factor=0.8)
 
-p.path()
-
 p.home()
 p.disconnect()
 ```
 
-[mettre photo path et reel]
+[mettre photo reel]
 
 Le détail de ce que réalise ces méthodes est visible [ici](#Méthodes-du-package-spiderpen).
 

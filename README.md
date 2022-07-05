@@ -10,6 +10,24 @@ Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 
 
 Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md)
 
+# Démo
+
+Pour tester la première fois le modèle, veuillez utiliser ce [fichier](https://github.com/valentin-burillier/spiderpen/tree/main/test/demo.py). Il permet de réaliser le tracer suivant :
+
+[photo du dessin]
+
+Cela permet de mettre en évidence / vérifier :
+- La bonne communication entre l'ordinateur et le Hub
+- La rectitude des lignes tracées
+- L'accesibilité à la zone maximale de dessin
+- Le respect des longueurs de chacun des rubans : `L_G` et `L_D`
+- Le respect des longueurs tracées : Dx correspond à une demie longueur à l'horizontal et Dy une demie longueur à la verticale
+
+Chacun de ces critères ne sont pas vérifier parfaitemt par le modèle. Ils dépendent principalement des mesures initiales des longueurs des rubans `L_Gi` et `LD_i` (Voir [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md) pour plus d'info).
+En générale, les lignes ne sont pas parfaitement rectilignes. Il y a une déviation. Et les longueurs sont conforme à 2-3% près.
+
+Si l'étalonnage correspond à vos attentes en terme de qualité de tracé, vous pouvez utiliser les valeurs afficher pour `L_G` et `L_D` comme longueurs initiales pour la prochaine connection.
+
 # Examples
 
 [à faire]

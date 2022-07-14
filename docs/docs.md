@@ -13,21 +13,27 @@ for _ in range(n):
     p.left(360/n*T)
 p.up()
 
-p.show()
+# p.show()
 
 p.connect()
 
 p.draw(fill_factor=0.8)
 
+p.path()
+
 p.home()
 p.disconnect()
 ```
 
-[mettre photo reel]
+<p align="center" width="100%">
+    <img width="40%" src="https://user-images.githubusercontent.com/93446869/178950454-94ffe558-e88c-4e73-b338-450970c48cd0.jpg">
+    <img width="58%" src="https://user-images.githubusercontent.com/93446869/178952035-65015931-258d-48f9-a37a-f8c4723cc1c7.png">
+    <em>Photo du dessin réel et graphique afficher par path</em>
+</p>
 
-Le détail de ce que réalise ces méthodes est visible dans cette [section](#Méthodes-du-package-spiderpen).
+Le détail des méthodes utilisées est décrite dans cette [section](#Méthodes-du-package-spiderpen).
 
-Il est conseillé d'utiliser une interface de programmation en cellule tel que : Jupyther Lab, Jupyther Notebook, Spyder (avec #%%)...
+Pour faciliter l'envoie des instructions au robot, il est conseillé d'utiliser une interface de programmation en cellule tel que : Jupyther Lab, Jupyther Notebook, Spyder (avec #%%)...
 
 En fonctionnement, la LED du robot respecte un code couleur : 
 - Bleu : Le robot attend les instructions, il ne dessine pas
@@ -106,7 +112,8 @@ Les instructions de dessin ne sont pas executée imédiatement. Il faut utiliser
 - `home` : Déplace le robot à la position initiale
 - `draw` : Execute les instructions de dessin préalablement choisit. Par default, la gestion de l'échelle est automatique, c'est à dire que le dessin est centrer et occupe 90% de la zone de dessin. L'argument `center` permet de centrer le tracer dans la zone de dessin. Si `center=True`, le robot commencera le tracer pour qu'il soit centrer dans la zone de dessin, si `center=False`, le tracer partira du centre de la zone de dessin correspondant à l'origine. L'argument `fill_factor` correspond au taux de remplissage du tracer dans la zone de dessin. Si `fill_factor=0.6` le tracer remplira 60% de la zone de dessin, s'il est égale à zero le tracer sera mis à l'échelle. Alors, les coordonnées d'instruction sont exprimer en milimètre.
 <p align="center" width="100%">
-    <img width="50%" src="https://user-images.githubusercontent.com/93446869/175830789-4be04a68-29c5-45fe-abc7-aa7e20859aa6.png"> 
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/175830789-4be04a68-29c5-45fe-abc7-aa7e20859aa6.png">
+    <em>Action des différents paramètres sur le tracé</em>
 </p>
 
 

@@ -37,8 +37,9 @@ Si l'étalonnage correspond à vos attentes en matière de qualité de tracé, v
 
 <p align="center" width="100%">
     <img width="49%" src="https://user-images.githubusercontent.com/93446869/179190675-196e5ab6-85cf-4cc2-a4e9-f096deb4ad0e.jpg">
-    <img width="49%" src="https://user-images.githubusercontent.com/93446869/179190701-a03bc5a8-1ae3-4d99-bd7b-6dd275e11dee.jpg">    
+    <img width="49%" src="https://user-images.githubusercontent.com/93446869/179230298-3e1befce-dc5f-41f2-b96f-3180ed821823.jpg">    
 </p>
+
 
 # Installation
 

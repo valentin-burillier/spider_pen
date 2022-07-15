@@ -5,7 +5,7 @@ Les déplacements du robot se programment en langage Logo. Les méthodes implém
 ```python
 import spiderpen as sp
 
-p = sp.Plotter(L_Gi=890, L_Di=825)
+p = sp.Plotter(lenght=820, height=1140)
 
 n, T = 7, 4
 for _ in range(n):
@@ -15,7 +15,7 @@ p.up()
 
 # p.show()
 
-p.connect()
+p.connect(L_Gi=890, L_Di=825)
 
 p.draw(fill_factor=0.8)
 
@@ -33,7 +33,7 @@ p.disconnect()
 
 Le détail des méthodes utilisées est décrite dans cette [section](#Méthodes-du-package-spiderpen).
 
-Pour faciliter l'envoie des instructions au robot, il est conseillé d'utiliser une interface de programmation en cellule tel que : Jupyther Lab, Jupyther Notebook, Spyder (avec #%%)...
+Pour faciliter l'envoie des instructions au robot, il est conseillé d'utiliser une interface de programmation en cellule tel que Jupyther Lab (Jupyther Notebook, Spyder (avec #%%)... sont également pratique).
 
 En fonctionnement, la LED du robot respecte un code couleur : 
 - Bleu : Le robot attend les instructions, il ne dessine pas
@@ -44,16 +44,16 @@ En fonctionnement, la LED du robot respecte un code couleur :
 # Mise en place
 ## Connection au Hub
 
-Par default le robot essayera de se connecter au Hub via une carte Bluegiga. Pour utiliser d'autres modes de connection, veuillez vous référez à la documention fournit par le package de controle du Hub, [ici](https://github.com/undera/pylgbst).
+Par default le robot essayera de se connecter au Hub via une carte Bluegiga. Pour utiliser d'autres modes de connection, veuillez vous référez à la documention fournit par [le package de controle du Hub](https://github.com/undera/pylgbst).
 
 La connection est géré par la méthode `connect` qu'il est possible d'appeler uniquement au moment du tracage. Ainsi, l'utilisateur peut plannifier sont tracé avant de connecter le Hub.
 
-`disconnect` permet la déconnection du Hub.
+`disconnect` permet de déconnecter le Hub.
 
 ## Parametrage du robot
 
 Le robot est caractérisé par différentes paramètres/constantes qui sont des attributs de la classe `Plotter` : 
-- `L_Gi`, `L_Di` : Longueurs initiales des rubans à gauche et à droite avant tout déplacement du robot. Ces paramètres sont nécessaires pour établir le calibrage.
+- `L_Gi`, `L_Di` : Longueurs initiales des rubans à gauche et à droite avant tout déplacement du robot. Ces paramètres sont nécessaires pour établir l'etalonnage.
 - `lenght` : Distance séparant les deux vantouses.
 - `height` : Hauteur du tableau utilisée.
 - `L_tot` : Longueur de ruban entre la vantouse et les deux rouleaux de la 'bouche' du robot. Elle est fixée à 1.5m.
@@ -63,11 +63,15 @@ Le robot est caractérisé par différentes paramètres/constantes qui sont des 
 
 ## Position initiale
 
-L'utilisateur doit réalisé la mesure de `L_Gi` et `L_Di` pour les paramétrer lors de l'initialisation du Hub. `home` permet de remettre le robot dans la position initiale afin que l'utilisateur n'est pas besoin d'effectuer la mesure à chaque fois.
+L'utilisateur doit réalisé la mesure de `L_Gi` et `L_Di` pour les paramétrer lors de la connection au Hub. `home` permet de remettre le robot dans la position initiale afin que l'utilisateur n'ait pas besoin d'effectuer la mesure à chaque fois.
 
 Le robot doit avoir son stylo en position levé en position initiale.
 
 Par défaults, la direction de traçage est horizontal dirigé vers la droite correspondant à un angle de 0°. Arrivé à la position de début de traçage, le stylo se baissera automatiquement en position d'écriture.
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179193353-4bf74dee-e1a4-4076-a1b0-fb0bdf69f68f.jpg">
+</p>
 
 # Méthodes du package spiderpen
 
@@ -90,10 +94,8 @@ Les instructions de dessin ne sont pas executée imédiatement. Il faut utiliser
 - `setx` : Définit la coordonnée en x du robot, en laissant celle en y inchangé
 - `sety` : Définit la coordonnée en y du robot, en laissant celle en x inchangé
 - `setheading` : Définit l'orienttion absolue du robot
-- `circle` : Dessine un cercle de rayon `radius`. Le signe de `radius` détermine si le cercle est tracé à gauche ou à droite. Si `radius>0` le centre du cercle est gauche sinon il est à droite. Le centre du cercle se situe à la distance de `radius` par rapport à la position actuelle du robot et perpendiculairement à l'orientation du robot. `angle` détermine quel est la portion de cercle qui va être dessinée. Si `angle=90`, un quart de cercle sera tracé. `n` et `d_max` permette de régler le niveau de détail du cercle. [à détailler]
-- `change_color` : Effectue une pause dans le script : le stylo est levé, la LED du Hub passe au rouge, l'utilisateur peut changer de stylo, la suite du script continue en appuyant sur le bouton du Hub, le stylo revient dans l'état qu'il était auparavant
-- [gestion des polygones : begin_shape, end_shape, turn_shape_ clone...]
-
+- `circle` : Dessine un cercle de rayon `radius`. Le signe de `radius` détermine si le cercle est tracé à gauche ou à droite. Si `radius>0` le centre du cercle est gauche sinon il est à droite. Le centre du cercle se situe à la distance de `radius` par rapport à la position actuelle du robot et perpendiculairement à l'orientation du robot. `angle` détermine sur quelle portion de cercle va être tracée. Si `angle=90`, un quart de cercle sera tracé. `n` et `d_max` permette de régler le niveau de détail du cercle.
+- `change_color` : Effectue une pause dans le script : le stylo est levé, la LED du Hub passe au rouge, l'utilisateur peut changer de stylo, la suite du script continue en appuyant sur le bouton du Hub, le stylo revient dans l'état qu'il était auparavant.
 
 ## État du robot
 
@@ -106,14 +108,13 @@ Les instructions de dessin ne sont pas executée imédiatement. Il faut utiliser
 
 ## Execution d'instructions
 
-- `connect` : Permet de connecter le robot. Si `hub=None`, cela éxecutera une tentative de connection via la carte Bluegiga. Il est possible de le connecter d'autres manières en lui passant comme argumant un objet de type Movehub. Plus d'info [ici](https://github.com/undera/pylgbst/blob/master/README.md)
+- `connect` : Permet de connecter le robot. Si `hub=None`, cela éxecutera une tentative de connection via la carte Bluegiga. Il est possible de le connecter d'autres manières en lui passant comme argumant un objet de type Movehub. Plus d'info [ici](https://github.com/undera/pylgbst/blob/master/README.md). Il faut également renseigner les les longueurs initiales des rubans `L_Gi` et `L_Di`. S'ils sont égale à None, les dernières valeurs de longueurs des rubans seront utilisées.
 - `disconnect` : Déconnecte le robot.
-- `path` : affiche un graphique matplotlib avec le trajet demandé par l'utilisateur et le trajet qui a été mesurer par le Hub
-- `home` : Déplace le robot à la position initiale
-- `draw` : Execute les instructions de dessin préalablement choisit. Par default, la gestion de l'échelle est automatique, c'est à dire que le dessin est centrer et occupe 90% de la zone de dessin. L'argument `center` permet de centrer le tracer dans la zone de dessin. Si `center=True`, le robot commencera le tracer pour qu'il soit centrer dans la zone de dessin, si `center=False`, le tracer partira du centre de la zone de dessin correspondant à l'origine. L'argument `fill_factor` correspond au taux de remplissage du tracer dans la zone de dessin. Si `fill_factor=0.6` le tracer remplira 60% de la zone de dessin, s'il est égale à zero le tracer sera mis à l'échelle. Alors, les coordonnées d'instruction sont exprimer en milimètre.
+- `path` : affiche un graphique matplotlib avec le trajet demandé par l'utilisateur et le trajet qui a été mesurer par le Hub.
+- `home` : Déplace le robot à la position initiale. Ainsi, l'utilisateur n'a pas besoin d'effectuer la mesure de `L_Gi` et `L_Di` à chaque fois.
+- `draw` : Execute les instructions de dessin préalablement choisit. Par default, la gestion de l'échelle est automatique, c'est à dire que le dessin est centrer et occupe 100% de la zone de dessin. L'argument `center` permet de centrer le tracer dans la zone de dessin. Si `center=True`, le robot commencera le tracer pour qu'il soit centrer dans la zone de dessin, si `center=False`, le tracer partira du centre de la zone correspondant à l'origine. L'argument `fill_factor` correspond au taux de remplissage du tracer dans la zone de dessin. Si `fill_factor=0.6` le tracer remplira 60% de la zone de dessin. S'il est égale à zero le tracé sera mis à l'échelle : les coordonnées d'instruction sont exprimer en millimètre.
 <p align="center" width="100%">
-    <img width="50%" src="https://user-images.githubusercontent.com/93446869/175830789-4be04a68-29c5-45fe-abc7-aa7e20859aa6.png">
-    <em>Action des différents paramètres sur le tracé</em>
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/175830789-4be04a68-29c5-45fe-abc7-aa7e20859aa6.png">    
 </p>
 
 

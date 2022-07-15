@@ -7,7 +7,7 @@ Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 
 - Toute la documentation nécessaire : [docs](https://github.com/valentin-burillier/spiderpen/tree/main/docs)
 
 <p align="center" width="100%">
-    <img width="40%" src="https://user-images.githubusercontent.com/93446869/179176539-6ae127de-4147-4afc-b315-70d8e9002690.jpg">
+    <img width="40%" src="https://user-images.githubusercontent.com/93446869/179218640-bc38fe10-068a-4bd8-b7af-3a2945f7dc68.jpg">
 </p>
 
 Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle, voir [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md).

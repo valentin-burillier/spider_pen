@@ -1,1 +1,0 @@
-# vive les L-system

@@ -3,23 +3,28 @@
 Ce depot montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 17101. Il comprend :
 - Les instructions de montage du modèle : [docs/building_instructions](https://github.com/valentin-burillier/spiderpen/blob/main/docs/building_instructions.pdf)
 - La librairie python permettant le contrôle du robot : [spiderpen](https://github.com/valentin-burillier/spiderpen/tree/main/spiderpen)
-- des exemples d'utilisation : [examples](https://github.com/valentin-burillier/spiderpen/tree/main/examples)
-- toute la documentation nécessaire : [docs](https://github.com/valentin-burillier/spiderpen/tree/main/docs)
+- Des exemples d'utilisation : [examples](https://github.com/valentin-burillier/spiderpen/tree/main/examples)
+- Toute la documentation nécessaire : [docs](https://github.com/valentin-burillier/spiderpen/tree/main/docs)
 
-[photo robot]
+<p align="center" width="100%">
+    <img width="40%" src="https://user-images.githubusercontent.com/93446869/179176539-6ae127de-4147-4afc-b315-70d8e9002690.jpg">
+</p>
 
-Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md)
+Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle, voir [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md).
 
 # Démo
 
-Pour tester la première fois le modèle, veuillez utiliser ce [fichier](https://github.com/valentin-burillier/spiderpen/tree/main/test/demo.py). Il permet de réaliser le tracer suivant :
+Pour tester la première fois le modèle, veuillez utiliser ce [fichier](https://github.com/valentin-burillier/spiderpen/tree/main/test/demo.py). Il permet de réaliser le tracé suivant :
 
-[photo du dessin]
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179033485-693fdbc0-0fcc-4398-8c2a-5bdf4143ba4c.jpg">
+</p>
 
 Cela permet de mettre en évidence / vérifier :
 - La bonne communication entre l'ordinateur et le Hub
 - La rectitude des lignes tracées
 - L'accesibilité à la zone maximale de dessin
+
 - Le respect des longueurs de chacun des rubans : `L_G` et `L_D`
 - Le respect des longueurs tracées : Dx correspond à une demie longueur à l'horizontal et Dy une demie longueur à la verticale
 
@@ -30,7 +35,10 @@ Si l'étalonnage correspond à vos attentes en terme de qualité de tracé, vous
 
 # Examples
 
-[à faire]
+<p align="center" width="100%">
+    <img width="49%" src="https://user-images.githubusercontent.com/93446869/179190675-196e5ab6-85cf-4cc2-a4e9-f096deb4ad0e.jpg">
+    <img width="49%" src="https://user-images.githubusercontent.com/93446869/179190701-a03bc5a8-1ae3-4d99-bd7b-6dd275e11dee.jpg">    
+</p>
 
 # Installation
 

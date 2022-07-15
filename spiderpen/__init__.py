@@ -4,25 +4,43 @@ from pylgbst.comms.cpygatt import BlueGigaConnection
 from pylgbst.hub import MoveHub
 import time
 
+
 class Plotter:
-    def __init__(self, lenght, height, L_Gi, L_Di):
+    def __init__(self, lenght, height):
         self.value_D, self.value_G, self.value_B = 0, 0, 0
 
         # constantes
         self.T = 0.15 # épaisseur du ruban
         self.R = 12 # rapport de réduction
-        self.r = 7.5/2 # rayon du treuil en mm
+        self.r_i = 7.5/2 # rayon du treuil en mm
         
-        self.L_Gi, self.L_Di, self.lenght, self.height = L_Gi, L_Di, lenght, height
+        self.lenght, self.height = lenght, height
+        
+        self.L_tot = 1500
+        
+        # détermination de la zone de dessin
+        e = 0.06
+        self.y_min = 0.3*lenght
+        self.y_max = min(np.sqrt(self.L_tot**2 - (lenght*(1 - e))**2), self.height) - 240
+        self.x_min = e*lenght
+        self.x_max = (1 - e)*lenght
+        
+        self.k_corr = 0.1
         
         self.clear()
     
-    def connect(self, hub=None):
+    def connect(self, hub=None, L_Gi=None, L_Di=None):
         if hub is None:
             connection = BlueGigaConnection()
             connection.connect(hub_name="LEGO Move Hub")
             hub = MoveHub(connection)
         self.hub = hub
+
+        if L_Gi is not None:
+            self.L_G = L_Gi
+        if L_Di is not None:
+            self.L_D = L_Di
+            
         
         self.motor_G = self.hub.motor_A
         self.motor_D = self.hub.motor_B
@@ -50,24 +68,13 @@ class Plotter:
         self.write_ = True
         self.angle = 0
         self.x_, self.y_ = 0, 0
-        self.instructions = np.array([[0, 0, 0],
-                                      [0, 0, 1]], object)
+        self.instructions = np.array([[0., 0., 0],
+                                      [0., 0., 1]], object)
     
-    def calibration(self):
-        self.L_tot = 1500 # longueur de cable LTD = 1.44
-        self.L = self.lenght * 10**3 # distance entre les 2 pts d'accroche en mm
-        self.L_G = self.L_Gi * 10**3
-        self.L_D = self.L_Di * 10**3
-        
-        # détermination de la zone de dessin
-        self.y_min = self.L*0.29 # 0.2 : max et 1/np.sqrt(12)=0.289 : force corde = 1 poid 
-        self.y_max = min(np.sqrt(self.L_tot**2 - self.L**2), self.height * 10**3 - 250)
-        self.x_min = 80
-        self.x_max = self.L - 80
-        
+    def calibration(self):        
         # déterminer t_Gi et t_Di
-        self.t_Gi = 2*np.pi*(-self.r + np.sqrt(self.r**2 + self.T/np.pi*(self.L_tot - self.L_G)))/self.T * self.R
-        self.t_Di = 2*np.pi*(-self.r + np.sqrt(self.r**2 + self.T/np.pi*(self.L_tot - self.L_D)))/self.T * self.R
+        self.t_Gi = 2*np.pi*(-self.r_i + np.sqrt(self.r_i**2 + self.T/np.pi*(self.L_tot - self.L_G)))/self.T * self.R
+        self.t_Di = 2*np.pi*(-self.r_i + np.sqrt(self.r_i**2 + self.T/np.pi*(self.L_tot - self.L_D)))/self.T * self.R
         
         self.X_i, self.Y_i = self.get_position()
 
@@ -82,10 +89,10 @@ class Plotter:
         a_D = t_D/self.R
         
         # longueurs des cables
-        self.L_G = self.L_tot - a_G*(self.r + self.T*a_G/4/np.pi)
-        self.L_D = self.L_tot - a_D*(self.r + self.T*a_D/4/np.pi)
+        self.L_G = self.L_tot - a_G*(self.r_i + self.T*a_G/4/np.pi)
+        self.L_D = self.L_tot - a_D*(self.r_i + self.T*a_D/4/np.pi)
         
-        self.x = (self.L_G**2 - self.L_D**2 + self.L**2)/self.L/2
+        self.x = (self.L_G**2 - self.L_D**2 + self.lenght**2)/self.lenght/2
         self.y = np.sqrt(self.L_G**2 - self.x**2)
         
         if self.write:
@@ -98,12 +105,12 @@ class Plotter:
     
     def get_speed(self, x_f, y_f, x_u, y_u):
         # vitesse du robot
-        c = ((x_f - self.x)*y_u + (self.y - y_f)*x_u)/10 # coefficient de correction de trajectoire
-        self.dx, self.dy = self._normalize(x_u + c*y_u, y_u - c*x_u)*self.r/self.R
+        c = ((x_f - self.x)*y_u + (self.y - y_f)*x_u)*self.k_corr # coefficient de correction de trajectoire
+        self.dx, self.dy = self._normalize(x_u + c*y_u, y_u - c*x_u)*self.r_i/self.R
         
         # vitesse des cables
         self.dL_G = (self.y*self.dy + self.dx*self.x)/self.L_G
-        self.dL_D = (self.y*self.dy + self.dx*(self.x-self.L))/self.L_D
+        self.dL_D = (self.y*self.dy + self.dx*(self.x-self.lenght))/self.L_D
                         
     def move(self, x_f, y_f, x_i=None, y_i=None, stop=True):
         if x_i == None or y_i == None:
@@ -117,8 +124,8 @@ class Plotter:
             self.get_speed(x_f, y_f, x_u, y_u)
 
             # vitesse du treuils 
-            da_G = self.dL_G/np.sqrt(self.r**2 + self.T/np.pi*(self.L_tot - self.L_G))
-            da_D = self.dL_D/np.sqrt(self.r**2 + self.T/np.pi*(self.L_tot - self.L_D))
+            da_G = self.dL_G/np.sqrt(self.r_i**2 + self.T/np.pi*(self.L_tot - self.L_G))
+            da_D = self.dL_D/np.sqrt(self.r_i**2 + self.T/np.pi*(self.L_tot - self.L_D))
 
             # vitesse des moteurs
             dt_G = da_G*self.R
@@ -233,15 +240,45 @@ class Plotter:
         else:
             self.up()
              
-    def show(self):
-        X_, Y_ = self.instructions[self.instructions.T[-1]==True].T[:-1]
+    def show(self, show_all=True, arrow=True):
+        n_max = len(self.instructions)
+        d, f = 1, 2
         
+        if arrow:
+            head_width = np.sqrt(np.sum((self.instructions[:, :-1].max(axis=0) + self.instructions[:, :-1].min(axis=0))**2))/40
+            
+        plt.figure()
         plt.axis('equal')
-        plt.plot(X_, Y_)
+
+        while f < n_max:
+            while f < n_max and self.instructions[f][-1]:
+                f += 1
+                
+            if f - d > 1:
+                x, y = self.instructions[d:f, :-1].T
+                plt.plot(x, y, 'tab:blue')
+                if arrow:
+                    plt.arrow(x[-2], y[-2], x[-1]-x[-2], y[-1]-y[-2], lw=0, length_includes_head=True, head_width=head_width, width=0, color='tab:blue')
+                
+            d = f
+            while d < n_max and not self.instructions[d][-1]:
+                d += 1
+                
+            if show_all:
+                if d - f > 1:
+                    x, y = self.instructions[f:d, :-1].T
+                    plt.plot(x, y, ':', color='tab:orange')
+                    if arrow:
+                        plt.arrow(x[-2], y[-2], x[-1]-x[-2], y[-1]-y[-2], lw=0, length_includes_head=True, head_width=head_width, width=0, color='tab:orange')
+            f = d + 1
+
         plt.show()
+
+        
         
     def path(self):       
         plt.figure(figsize=(9, 9*(self.y_max - self.y_min)/(self.x_max - self.x_min)))
+        plt.axis('equal')
         
         plt.ylim((self.y_max, self.y_min))
         plt.xlim((self.x_min, self.x_max))
@@ -255,7 +292,7 @@ class Plotter:
         self.Y_ -= (self.Y_.max() + self.Y_.min())/2
         self.X_ -= (self.X_.max() + self.X_.min())/2
     
-    def _fill(self, factor=1): # combler       
+    def _fill(self, factor): # combler       
         delta_x_ = 2*np.abs(self.X_).max()
         delta_y_ = 2*np.abs(self.Y_).max()
         delta_x = self.x_max - self.x_min
@@ -272,7 +309,7 @@ class Plotter:
     
     _check = lambda self : self.X_.max() <= self.x_max and self.X_.min() >= self.x_min and self.Y_.max() <= self.x_max and self.Y_.min() >= self.y_min
     
-    def draw(self, center=True, fill_factor=0.9):
+    def draw(self, center=True, fill_factor=1.0):
         if self.instructions[-1, -1]: # leve le crayon a la fin
             self.up()
             
@@ -293,7 +330,7 @@ class Plotter:
         else:
             self._adapt()
             if not(self._check()): # verifie si le dessin rentre dans la zone de dessin
-                return 'Ca depasse chef !'
+                raise 'Le dessin dépasse de la zone !'
               
         
         self.hub.led.set_color(6) # vert

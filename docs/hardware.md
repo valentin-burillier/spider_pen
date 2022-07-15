@@ -6,7 +6,9 @@ Liste de matériels :
 
 Ce modèle se base à partir des pieces de l'ensemble LEGO Boost 17101. Il faut néanmoins ajouter deux vis sans fin 4716. Sans ces dernières, il n'est pas possible d'obtenir un rapport de réduction suffisant pour supporter le poid du modèle. Les instructions de montage du modèle sont disponible dans le fichier [docs/instructions](https://github.com/valentin-burillier/spiderpen/blob/main/docs/instructions.pdf).
 
-[photo modèle]
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179182714-4f5aa6b3-8f0a-4adb-9fd4-3450d5976dcb.jpg">
+</p>
 
 Les pattes noires à l'avant n'ont pas seulement un but décoratif. Ils permettent au robot de ne pas pivoter autour de l'axe verticale lors du tracé.
 
@@ -19,7 +21,7 @@ Liste de matériels :
 - [2 vantouses de 45mm](https:///Nuenen-Ventouses-Transparentes-Champignon-Extérieur/dp/B09MVLSN4M/ref=mp_s_a_1_16)
 - [Feutres](https:///BIC-Velleda-1741-Feutres-Effaçables/dp/B001AS5FHO/ref=mp_s_a_1_7)
 - [Tableau blanc](https:///Eco-magnétique-Tableau-blanc-120/dp/B00P7XD27S/ref=mp_s_a_1_9)
-- [Carte Bluegiga](https://www.silabs.com/wireless/bluetooth/bluegiga-low-energy-legacy-modules/device.bled112) (si Windows)
+- [Carte Bluegiga](https://www.silabs.com/wireless/bluetooth/bluegiga-low-energy-legacy-modules/device.bled112) (si nécessaire)
 
 Le modèle est maintenu par deux rubans bolduc de longueur 1.6m chacun. La fixation avec le tableau est réalisée grâce à des ventouses.
 
@@ -35,9 +37,11 @@ Les vantouses permettent de :
 - supporter le poid du robot
 - s'attacher et se détacher facilement du tableau
 
-De part la conception du modèle, tous les types de feutre ne peuvent pas être utilisés.
+De part la conception du modèle, tous les types de feutre ne peuvent pas être utilisés. Le modèle est designé pour fonctionner avec les feutres en lien ci-dessus.
 
-Les justifications de ces choix sont parfaitement détaillées dans cette [vidéo](https://www.youtube.com/watch?v=5x0n29MjIi8).
+Les justifications de ces choix techniques sont parfaitement détaillées dans cette [vidéo](https://www.youtube.com/watch?v=5x0n29MjIi8).
+
+Pour les utilisateurs de Windows, la carte Bluegiga est probablement nécessaire pour la connection du Hub. Se référer [ici](https://github.com/undera/pylgbst/blob/master/README.md) pour plus de détails. _Si vous arrivez à faire fonctionner la connection `bleak`, merci de me le partager._
 
 # Alimentation électrique
 

@@ -42,6 +42,31 @@ En fonctionnement, la LED du robot respecte un code couleur :
 - Orange : Clignotant : la batterie du robot est faible
 
 # Mise en place
+## Parametrage du robot
+
+Le robot est caractérisé par différentes paramètres/constantes qui sont des attributs de la classe `Plotter` : 
+- `L_Gi`, `L_Di` : Longueurs initiales des rubans à gauche et à droite avant tout déplacement du robot. Ces paramètres sont nécessaires pour établir l'etalonnage.
+- `lenght` : Distance séparant les deux vantouses.
+- `height` : Hauteur du tableau utilisée.
+- `L_tot` : Longueur de ruban entre la vantouse et les deux rouleaux cote à cote du robot. Elle est fixée à 1.5m.
+- `T` : Epaisseur du ruban utilisée. Celle paramétrée correspond à un ruban standard.
+- `R` : Rapport de réduction entre l'arbre moteur et le treuil.
+- `r` : Rayon du treuil.
+
+## Position initiale
+
+Lors de l'initialisation d'un objet `Plotter` les paramètres `lenght` et `height` exprimé en millimètre sont à renseigner.
+
+Le robot doit avoir son stylo en position levé en position initiale.
+
+Par défaults, la direction de traçage est horizontal dirigé vers la droite correspondant à un angle de 0°. Arrivé à la position de début de traçage, le stylo se baissera automatiquement en position d'écriture.
+
+L'utilisateur doit réalisé la mesure de `L_Gi` et `L_Di` pour les paramétrer lors de la connection au Hub. `home` permet de remettre le robot dans la position initiale afin que l'utilisateur n'ait pas besoin d'effectuer la mesure à chaque fois.
+
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179193353-4bf74dee-e1a4-4076-a1b0-fb0bdf69f68f.jpg">
+</p>
+
 ## Connection au Hub
 
 Par default le robot essayera de se connecter au Hub via une carte Bluegiga. Pour utiliser d'autres modes de connection, veuillez vous référez à la documention fournit par [le package de controle du Hub](https://github.com/undera/pylgbst).
@@ -49,29 +74,6 @@ Par default le robot essayera de se connecter au Hub via une carte Bluegiga. Pou
 La connection est géré par la méthode `connect` qu'il est possible d'appeler uniquement au moment du tracage. Ainsi, l'utilisateur peut plannifier sont tracé avant de connecter le Hub.
 
 `disconnect` permet de déconnecter le Hub.
-
-## Parametrage du robot
-
-Le robot est caractérisé par différentes paramètres/constantes qui sont des attributs de la classe `Plotter` : 
-- `L_Gi`, `L_Di` : Longueurs initiales des rubans à gauche et à droite avant tout déplacement du robot. Ces paramètres sont nécessaires pour établir l'etalonnage.
-- `lenght` : Distance séparant les deux vantouses.
-- `height` : Hauteur du tableau utilisée.
-- `L_tot` : Longueur de ruban entre la vantouse et les deux rouleaux de la 'bouche' du robot. Elle est fixée à 1.5m.
-- `T` : Epaisseur du ruban utilisé. Celle paramétrée correspond à un ruban standard.
-- `R` : Rapport de réduction entre l'arbre moteur et le treuil.
-- `r` : Rayon du treuil.
-
-## Position initiale
-
-L'utilisateur doit réalisé la mesure de `L_Gi` et `L_Di` pour les paramétrer lors de la connection au Hub. `home` permet de remettre le robot dans la position initiale afin que l'utilisateur n'ait pas besoin d'effectuer la mesure à chaque fois.
-
-Le robot doit avoir son stylo en position levé en position initiale.
-
-Par défaults, la direction de traçage est horizontal dirigé vers la droite correspondant à un angle de 0°. Arrivé à la position de début de traçage, le stylo se baissera automatiquement en position d'écriture.
-
-<p align="center" width="100%">
-    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179193353-4bf74dee-e1a4-4076-a1b0-fb0bdf69f68f.jpg">
-</p>
 
 # Méthodes du package spiderpen
 
@@ -108,7 +110,7 @@ Les instructions de dessin ne sont pas executée imédiatement. Il faut utiliser
 
 ## Execution d'instructions
 
-- `connect` : Permet de connecter le robot. Si `hub=None`, cela éxecutera une tentative de connection via la carte Bluegiga. Il est possible de le connecter d'autres manières en lui passant comme argumant un objet de type Movehub. Plus d'info [ici](https://github.com/undera/pylgbst/blob/master/README.md). Il faut également renseigner les les longueurs initiales des rubans `L_Gi` et `L_Di`. S'ils sont égale à None, les dernières valeurs de longueurs des rubans seront utilisées.
+- `connect` : Permet de connecter le robot. Si `hub=None`, cela éxecutera une tentative de connection via la carte Bluegiga. Il est possible de le connecter d'autres manières en lui passant comme argumant un objet de type Movehub. Plus d'info [ici](https://github.com/undera/pylgbst/blob/master/README.md). Il faut également renseigner les longueurs initiales des rubans `L_Gi` et `L_Di` en millimètre. S'ils sont égale à None, les dernières valeurs de longueurs des rubans seront utilisées.
 - `disconnect` : Déconnecte le robot.
 - `path` : affiche un graphique matplotlib avec le trajet demandé par l'utilisateur et le trajet qui a été mesurer par le Hub.
 - `home` : Déplace le robot à la position initiale. Ainsi, l'utilisateur n'a pas besoin d'effectuer la mesure de `L_Gi` et `L_Di` à chaque fois.
@@ -116,10 +118,3 @@ Les instructions de dessin ne sont pas executée imédiatement. Il faut utiliser
 <p align="center" width="100%">
     <img width="50%" src="https://user-images.githubusercontent.com/93446869/175830789-4be04a68-29c5-45fe-abc7-aa7e20859aa6.png">    
 </p>
-
-
-
-
-
-
-

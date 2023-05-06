@@ -1,3 +1,10 @@
+<p align="center" width="100%">
+    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179218640-bc38fe10-068a-4bd8-b7af-3a2945f7dc68.jpg">
+</p>
+
+[![PyPI Downloads](https://img.shields.io/pypi/dm/spiderpen.svg?label=PyPI%20downloads)](
+https://pypi.org/project/spiderpen/)
+
 # Description
 
 Ce dépôt montre comment réaliser un traceur à partir de l'ensemble LEGO Boost 17101. Il comprend :
@@ -5,10 +12,6 @@ Ce dépôt montre comment réaliser un traceur à partir de l'ensemble LEGO Boos
 - La librairie python permettant le contrôle du robot : [spiderpen](https://github.com/valentin-burillier/spiderpen/tree/main/spiderpen)
 - Des exemples d'utilisation : [examples](https://github.com/valentin-burillier/spiderpen/tree/main/examples)
 - Toute la documentation nécessaire : [docs](https://github.com/valentin-burillier/spiderpen/tree/main/docs)
-
-<p align="center" width="100%">
-    <img width="50%" src="https://user-images.githubusercontent.com/93446869/179218640-bc38fe10-068a-4bd8-b7af-3a2945f7dc68.jpg">
-</p>
 
 Pour rendre le pilotage du robot simple et accessible à tout le monde, le codage des déplacements se fait à la manière turtle, voir [docs/docs](https://github.com/valentin-burillier/spiderpen/blob/main/docs/docs.md).
 

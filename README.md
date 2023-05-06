@@ -60,11 +60,6 @@ pip install spiderpen
 - Des fautes d'orthographe ou des imprécisions peuvent également se cacher dans ce dépôt. 
 - Partagez les applications cool que vous avez faites ( :
 
-# TODO
-
-- Rédiger le fichier documentant le fonctionnement de l'algorithme de déplacement
-- "Angliser" le tout
-
 # Références
 
 - https://www.youtube.com/watch?v=HU9SaCFnCng / https://www.youtube.com/watch?v=5x0n29MjIi8 - Les vidéos qui ont inspiré ce dépôt.
